@@ -56,6 +56,12 @@ HYUNDAI_VERSION_RESPONSE = bytes([uds.SERVICE_TYPE.READ_DATA_BY_IDENTIFIER + 0x4
 TOYOTA_VERSION_REQUEST = b'\x1a\x88\x01'
 TOYOTA_VERSION_RESPONSE = b'\x5a\x88\x01'
 
+MAZDA_VERSION_REQUEST = b'\x22\xf1\x88'
+MAZDA_VERSION_RESPONSE = b'\x62\xf1\x88'
+
+MAZDA_VERSION_REQUEST_A = b'\x22\xf1\x89'
+MAZDA_VERSION_RESPONSE_A = b'\x62\xf1\x89'
+
 OBD_VERSION_REQUEST = b'\x09\x04'
 OBD_VERSION_RESPONSE = b'\x49\x04'
 
@@ -99,7 +105,19 @@ REQUESTS = [
     "toyota",
     [TESTER_PRESENT_REQUEST, DEFAULT_DIAGNOSTIC_REQUEST, EXTENDED_DIAGNOSTIC_REQUEST, UDS_VERSION_REQUEST],
     [TESTER_PRESENT_RESPONSE, DEFAULT_DIAGNOSTIC_RESPONSE, EXTENDED_DIAGNOSTIC_RESPONSE, UDS_VERSION_RESPONSE],
-  )
+  ),
+  # Mazda
+  (
+    "mazda",
+    [TESTER_PRESENT_REQUEST, MAZDA_VERSION_REQUEST],
+    [TESTER_PRESENT_RESPONSE, MAZDA_VERSION_RESPONSE],
+  ),
+  (
+    "mazda",
+    [TESTER_PRESENT_REQUEST, MAZDA_VERSION_REQUEST_A],
+    [TESTER_PRESENT_RESPONSE, MAZDA_VERSION_RESPONSE_A],
+  ) 
+
 ]
 
 
@@ -236,6 +254,7 @@ if __name__ == "__main__":
 
   t = time.time()
   fw_vers = get_fw_versions(logcan, sendcan, 1, extra=extra, debug=args.debug, progress=True)
+  fw_vers += get_fw_versions(logcan, sendcan, 0, extra=extra, debug=args.debug, progress=True)
   candidates = match_fw_to_car(fw_vers)
 
   print()

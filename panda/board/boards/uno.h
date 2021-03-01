@@ -56,9 +56,7 @@ void uno_set_gps_load_switch(bool enabled) {
 }
 
 void uno_set_bootkick(bool enabled){
-  if(enabled){
-    set_gpio_output(GPIOB, 14, !enabled);
-    
+  set_gpio_output(GPIOB, 14, !enabled);
 }
 
 void uno_bootkick(void) {

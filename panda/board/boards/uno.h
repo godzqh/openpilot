@@ -56,16 +56,12 @@ void uno_set_gps_load_switch(bool enabled) {
 }
 
 void uno_set_bootkick(bool enabled){
-<<<<<<< HEAD
   if(enabled){
     set_gpio_output(GPIOB, 14, false);
   } else {
     // We want the pin to be floating, not forced high!
     set_gpio_mode(GPIOB, 14, MODE_INPUT);
   }
-=======
-  set_gpio_output(GPIOB, 14, !enabled);
->>>>>>> parent of 98e018a9 (Update uno.h)
 }
 
 void uno_bootkick(void) {

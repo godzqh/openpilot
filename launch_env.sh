@@ -11,7 +11,7 @@ if [ -z "$AGNOS_VERSION" ]; then
 fi
 
 if [ -z "$PASSIVE" ]; then
-  export PASSIVE="1"
+  export PASSIVE="10.1"
 fi
 
 export STAGING_ROOT="/data/safe_staging"

@@ -3,7 +3,7 @@
   url = ../../moretore/panda.git
 [submodule "opendbc"]
   path = opendbc_repo
-  url = ../../moretore/opendbc.git
+  url = ../../godzqh/opendbc.git
 [submodule "msgq"]
   path = msgq_repo
   url = ../../moretore/msgq.git

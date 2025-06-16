@@ -70,7 +70,7 @@ class CarInterface(CarInterfaceBase):
         ret.radarUnavailable = False
         ret.startingState = True
         ret.longitudinalTuning.kpBP = [0., 5., 30.]
-        ret.longitudinalTuning.kpV = [1.3, 1.0, 0.7]
+        ret.longitudinalTuning.kpV = [1.0, 0.6, 0.2]
         ret.longitudinalTuning.kiBP = [0., 5., 20., 30.]
         ret.longitudinalTuning.kiV = [0.36, 0.23, 0.17, 0.1]
         ret.safetyConfigs[0].safetyParam |= Panda.FLAG_MAZDA_RADAR_INTERCEPTOR

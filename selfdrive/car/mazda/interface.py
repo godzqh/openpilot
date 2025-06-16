@@ -83,7 +83,8 @@ class CarInterface(CarInterfaceBase):
         ret.safetyConfigs[0].safetyParam |= Panda.FLAG_MAZDA_NO_FSC
 
       ret.steerActuatorDelay = 0.1
-
+      ret.enableBsm = 0x47b in fingerprint[0]
+      
     if candidate in GEN2:
       ret.safetyConfigs[0].safetyParam |= Panda.FLAG_MAZDA_GEN2
       ret.experimentalLongitudinalAvailable = True

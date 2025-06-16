@@ -195,8 +195,8 @@ def create_radar_command(packer, frame, active, CC, CS, hold):
   crz_info["STOPPING_MAYBE"] = hold
   crz_info["STOPPING_MAYBE2"] = hold
 
-  crz_ctrl["CRZ_ACTIVE"] = active
-  crz_ctrl["ACC_ACTIVE_2"] = active
+  crz_ctrl["CRZ_ACTIVE"] = int(CC.longActive)
+  crz_ctrl["ACC_ACTIVE_2"] = int(CC.longActive)
   crz_ctrl["DISABLE_TIMER_1"] = 0
   crz_ctrl["DISABLE_TIMER_2"] = 0
 

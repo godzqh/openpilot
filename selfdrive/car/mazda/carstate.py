@@ -268,17 +268,16 @@ class CarState(CarStateBase):
         ("BSM", 10),
       ]
       
-
+      if not (CP.flags & MazdaFlags.RADAR_INTERCEPTOR) and not (CP.flags & MazdaFlags.NO_MRCC):
+        messages += [
+          ("CRZ_CTRL", 50),
+        ]
+        
     if CP.enableBsm:
       messages += [
        ("BSM_M3", 10),
       ]
       
-      if not (CP.flags & MazdaFlags.RADAR_INTERCEPTOR) and not (CP.flags & MazdaFlags.NO_MRCC):
-        messages += [
-          ("CRZ_CTRL", 50),
-        ]
-
     if CP.flags & MazdaFlags.GEN2:
       messages += [
         ("BRAKE_PEDAL", 20),

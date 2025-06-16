@@ -70,7 +70,7 @@ class CarState(CarStateBase):
 
     ret.genericToggle = bool(cp.vl["BLINK_INFO"]["HIGH_BEAMS"])
 
-    if self.CP.enableBsm:Add commentMore actions
+    if self.CP.enableBsm:
       ret.leftBlindspot = cp.vl["BSM_M3"]["LEFT_BSM"] == 1
       ret.rightBlindspot = cp.vl["BSM_M3"]["RIGHT_BSM"] == 1
     

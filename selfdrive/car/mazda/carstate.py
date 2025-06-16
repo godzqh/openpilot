@@ -69,8 +69,11 @@ class CarState(CarStateBase):
     ret.gearShifter = self.parse_gear_shifter(self.shifter_values.get(can_gear, None))
 
     ret.genericToggle = bool(cp.vl["BLINK_INFO"]["HIGH_BEAMS"])
-    ret.leftBlindspot = cp.vl["BSM"]["LEFT_BS_STATUS"] != 0
-    ret.rightBlindspot = cp.vl["BSM"]["RIGHT_BS_STATUS"] != 0
+
+    if self.CP.enableBsm:Add commentMore actions
+      ret.leftBlindspot = cp.vl["BSM_M3"]["LEFT_BSM"] == 1
+      ret.rightBlindspot = cp.vl["BSM_M3"]["RIGHT_BSM"] == 1
+    
     ret.leftBlinker, ret.rightBlinker = self.update_blinker_from_lamp(40, cp.vl["BLINK_INFO"]["LEFT_BLINK"] == 1,
                                                                       cp.vl["BLINK_INFO"]["RIGHT_BLINK"] == 1)
 
@@ -264,7 +267,13 @@ class CarState(CarStateBase):
         ("GEAR", 20),
         ("BSM", 10),
       ]
+      
 
+    if CP.enableBsm:
+      messages += [
+       ("BSM_M3", 10),
+      ]
+      
       if not (CP.flags & MazdaFlags.RADAR_INTERCEPTOR) and not (CP.flags & MazdaFlags.NO_MRCC):
         messages += [
           ("CRZ_CTRL", 50),

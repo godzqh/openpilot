@@ -740,7 +740,7 @@ BO_ 64 MOB2: 8 XXX
  SG_ NEW_SIGNAL_10 : 31|6@0+ (1,0) [0|3] "" XXX
  SG_ NEW_SIGNAL_11 : 37|1@0+ (1,0) [0|1] "" XXX
 
-BO_ 1147 BSM_M3: 8 XXXAdd commentMore actions
+BO_ 1147 BSM_M3: 8 XXX
  SG_ RIGHT_BSM : 0|1@0+ (1,0) [0|1] "" XXX
  SG_ LEFT_BSM : 14|1@0+ (1,0) [0|1] "" XXX
 

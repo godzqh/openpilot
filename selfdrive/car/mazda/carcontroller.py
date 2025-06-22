@@ -30,6 +30,8 @@ class CarController(CarControllerBase):
     self.long_active_last = False
     self.params = Params()
     self.params_memory = Params("/dev/shm/params")
+    self.long_active_last = False
+
 
 
   def update(self, CC, CS, now_nanos, frogpilot_toggles):
@@ -90,6 +92,9 @@ class CarController(CarControllerBase):
           raw_acc_output = max(-1000, min(raw_acc_output, 1000))
 
           if self.params.get_bool("BlendedACC"):
+            if not self.long_active_last:
+              # reset the filter when we start ACC
+              self.acc_filter.initialized = False
             if self.params_memory.get_int("CEStatus"):
               self.acc_filter.update_alpha(abs(raw_acc_output-self.filtered_acc_last)/1000)
               filtered_acc_output = int(self.acc_filter.update(raw_acc_output))
@@ -98,17 +103,21 @@ class CarController(CarControllerBase):
               self.acc_filter.update_alpha(abs(CS.crz_info["ACCEL_CMD"]-self.filtered_acc_last)/1000)
               filtered_acc_output = int(self.acc_filter.update(CS.crz_info["ACCEL_CMD"]))
 
-            CS.crz_info["ACCEL_CMD"] = int(filtered_acc_output)
+            acc_output = filtered_acc_output
             self.filtered_acc_last = filtered_acc_output
           else:
             acc_output = raw_acc_output
+
+          if self.params.get_bool("ExperimentalLongitudinalEnabled"):
+            CS.crz_info["ACCEL_CMD"] = acc_output
+            self.long_active_last = True
 
         if self.frame % 2 == 0:
           can_sends.extend(mazdacan.create_radar_command(self.packer, self.frame, CC.longActive, CS, hold))
 
     else:
-      raw_acc_output = (CC.actuators.accel * 240) + 2000
       if CC.longActive:
+        raw_acc_output = (CC.actuators.accel * 200) + 2000
         if self.params.get_bool("BlendedACC"):
           if not self.long_active_last:
             # reset the filter when we start ACC
@@ -130,8 +139,8 @@ class CarController(CarControllerBase):
 
         if self.params.get_bool("ExperimentalLongitudinalEnabled"):
           CS.acc["ACCEL_CMD"] = acc_output
+          self.long_active_last = True
 
-      self.long_active_last = CC.longActive
       resume = False
       hold = False
       if Timer.interval(2): # send ACC command at 50hz
@@ -144,7 +153,8 @@ class CarController(CarControllerBase):
         """
         if CS.out.standstill: # if we're stopped
           if not self.hold_delay.active(): # and we have been stopped for more than hold_delay duration. This prevents a hard brake if we aren't fully stopped.
-            if (CC.cruiseControl.resume or CC.cruiseControl.override or CS.out.gasPressed or
+            if ((CC.cruiseControl.resume and CC.actuators.longControlState != LongCtrlState.stopping) or
+                CC.cruiseControl.override or CS.out.gasPressed or
                 (CC.actuators.longControlState == LongCtrlState.starting) or CS.acc["RESUME"]): # and we want to resume
               self.resume_timer.reset() # reset the resume timer so its active
             else: # otherwise we're holding

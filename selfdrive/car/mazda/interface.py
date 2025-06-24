@@ -85,6 +85,7 @@ class CarInterface(CarInterfaceBase):
         ret.flags |= MazdaFlags.NO_FSC.value
         ret.safetyConfigs[0].safetyParam |= Panda.FLAG_MAZDA_NO_FSC
 
+      ret.enableBsm = 0x47b in fingerprint[0]
       ret.steerActuatorDelay = 0.1
       ret.enableBsm = True
 

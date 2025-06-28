@@ -269,10 +269,10 @@ class CarState(CarStateBase):
           ("CRZ_CTRL", 50),
         ]
 
-   if CP.enableBsm:
-      messages += [
-       ("BSM_M3", 10),
-      ]
+    if CP.enableBsm:
+       messages += [
+        ("BSM_M3", 10),
+       ]
 
     if CP.flags & MazdaFlags.GEN2:
       messages += [
